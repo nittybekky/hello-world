@@ -42,7 +42,6 @@ jobs:
             # Your command
             ansible-playbook -i inventory main-remote.yml
 
-       
   # Exercise: Smoke Testing
   smoke_test:
     docker:
