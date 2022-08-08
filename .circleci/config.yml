@@ -1,36 +1,56 @@
 version: 2.1
 
 jobs:
-  create_infrastructure: 
+  # create_infrastructure: 
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Create Cloudformation Stack
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file template.yml \
+  #             --stack-name myUdaStack-${CIRCLE_WORKFLOW_ID:0:5} \
+  #             --region us-east-1
+  #     # Fail the job intentionally to simulate an error.
+  #     # Uncomment the line below if you want to fail the current step
+  #     # - run: return 1
+  #     # Uncomment the line below if you want to destroy the environment
+  #     #- destroy_environment
+
+  # Exercise: Config and Deployment
+  configure_infrastructure: 
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - add_ssh_keys:
+              # You can get this ID in the section where you registered the SSH Key
+              fingerprints: ["14:33:f0:81:84:10:a6:4a:03:a2:7a:8c:1c:25:38:de"] 
       - run:
-          name: Create Cloudformation Stack
+          name: Install Ansible
           command: |
-            aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name myUdaStack-${CIRCLE_WORKFLOW_ID:0:5} \
-              --region us-east-1
-      # Fail the job intentionally to simulate an error.
-      # Uncomment the line below if you want to fail the current step
-      # - run: return 1
-      # Uncomment the line below if you want to destroy the environment
-      #- destroy_environment
-
-  # print_output_file:
-  #   docker:
-  #     - image: circleci/node:13.8.0
-  #   steps:
-  #     - attach_workspace:
-  #         at: ~/
-  #     - run: cat ~/output.txt
+            # Install Ansible
+            apk add --update ansible
+      - run:
+          name: Run Playbook and Configure server
+          command: |
+            # Your command
+            sudo ansible-playbook -i inventory main-remote.yml
+    # print_output_file:
+    #   docker:
+    #     - image: circleci/node:13.8.0
+    #   steps:
+    #     - attach_workspace:
+    #         at: ~/
+    #     - run: cat ~/output.txt
 
 workflows:
   my_workflow:
     jobs:
-      - create_infrastructure
+      - configure_infrastructure
+      # - create_infrastructure
       # - save_hello_world_output
       # - print_output_file:
       #     requires:
