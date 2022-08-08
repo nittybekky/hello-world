@@ -25,9 +25,9 @@ jobs:
               --template-file template.yml \
               --stack-name myUdaStack-${CIRCLE_WORKFLOW_ID:0:5} \
               --region us-east-1
-            # aws ec2 describe-instances \
-            #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            #   --output text >> ~/inventory
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> ~/inventory
       # Fail the job intentionally to simulate an error.
       # Uncomment the line below if you want to fail the current step
       # - run: return 1
