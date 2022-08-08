@@ -10,7 +10,11 @@ commands:
           # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
           when: on_fail
           command: |
+<<<<<<< HEAD
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
+=======
+            aws cloudformation delete-stack --stack-name myUdaStack-${CIRCLE_WORKFLOW_ID:0:5}
+>>>>>>> 4f7cbddfe86521e063cddb22cf37eff848896c9a
 
 jobs:
   create_infrastructure: 
