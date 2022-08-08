@@ -1,17 +1,37 @@
 version: 2.1
 
 jobs:
-  my_job:
+  create_infrastructure: 
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
-      - run: exit 1
+      - checkout
       - run:
-          name: on error
-          command: echo "Hello Error!"
-          when: on_fail
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy \
+              --template-file template.yml \
+              --stack-name myUdaStack-${CIRCLE_WORKFLOW_ID:0:5} \
+              --region us-east-1
+      # Fail the job intentionally to simulate an error.
+      # Uncomment the line below if you want to fail the current step
+      # - run: return 1
+      # Uncomment the line below if you want to destroy the environment
+      #- destroy_environment
+
+  # print_output_file:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/
+  #     - run: cat ~/output.txt
 
 workflows:
   my_workflow:
     jobs:
-      - my_job
+      - create_infrastructure
+      # - save_hello_world_output
+      # - print_output_file:
+      #     requires:
+      #       - save_hello_world_output
