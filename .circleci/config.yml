@@ -1,26 +1,26 @@
 version: 2.1
 
 jobs:
-  create_infrastructure: 
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Create Cloudformation Stack
-          command: |
-            aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name myUdaStack-${CIRCLE_WORKFLOW_ID:0:5} \
-              --region us-east-1
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> ~/inventory
-      # Fail the job intentionally to simulate an error.
-      # Uncomment the line below if you want to fail the current step
-      # - run: return 1
-      # Uncomment the line below if you want to destroy the environment
-      #- destroy_environment
+  # create_infrastructure: 
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Create Cloudformation Stack
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file template.yml \
+  #             --stack-name myUdaStack-${CIRCLE_WORKFLOW_ID:0:5} \
+  #             --region us-east-1
+  #           # aws ec2 describe-instances \
+  #           #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
+  #           #   --output text >> ~/inventory
+  #     # Fail the job intentionally to simulate an error.
+  #     # Uncomment the line below if you want to fail the current step
+  #     # - run: return 1
+  #     # Uncomment the line below if you want to destroy the environment
+  #     #- destroy_environment
 
   # Exercise: Config and Deployment
   configure_infrastructure: 
@@ -52,10 +52,11 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+      # - create_infrastructure
+      - configure_infrastructure
+      # - configure_infrastructure:
+          # requires:
+          #   - create_infrastructure
       # - save_hello_world_output
       # - print_output_file:
       #     requires:
