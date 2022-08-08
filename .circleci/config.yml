@@ -37,7 +37,7 @@ jobs:
           name: Run Playbook and Configure server
           command: |
             # Your command
-            sudo ansible-playbook -i inventory main-remote.yml
+            ansible-playbook -i inventory main-remote.yml
     # print_output_file:
     #   docker:
     #     - image: circleci/node:13.8.0
