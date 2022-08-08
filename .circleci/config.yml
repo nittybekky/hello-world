@@ -27,20 +27,20 @@ jobs:
   #   docker:
   #     - image: python:3.7-alpine3.11
   #   steps:
-      - checkout
-      - add_ssh_keys:
-              # You can get this ID in the section where you registered the SSH Key
-              fingerprints: ["14:33:f0:81:84:10:a6:4a:03:a2:7a:8c:1c:25:38:de"] 
-      - run:
-          name: Install Ansible
-          command: |
-            # Install Ansible
-            apk add --update ansible
-      - run:
-          name: Run Playbook and Configure server
-          command: |
-            # Your command
-            ansible-playbook -i inventory main-remote.yml
+      # - checkout
+      # - add_ssh_keys:
+      #         # You can get this ID in the section where you registered the SSH Key
+      #         fingerprints: ["14:33:f0:81:84:10:a6:4a:03:a2:7a:8c:1c:25:38:de"] 
+      # - run:
+      #     name: Install Ansible
+      #     command: |
+      #       # Install Ansible
+      #       apk add --update ansible
+      # - run:
+      #     name: Run Playbook and Configure server
+      #     command: |
+      #       # Your command
+      #       ansible-playbook -i inventory main-remote.yml
 
   # Exercise: Smoke Testing
   smoke_test:
